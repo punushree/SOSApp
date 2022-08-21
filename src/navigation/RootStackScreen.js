@@ -8,7 +8,11 @@ import SignUpScreen from '../screens/SignUpScreen';
 const RootStack = createNativeStackNavigator();
 const RootStackScreen = () => {
   return (
-    <RootStack.Navigator headerMode='none'>
+    <RootStack.Navigator screenOptions={
+      {
+        headerShown: false
+      }
+    }>
         <RootStack.Screen name='SplashScreen' component={SplashScreen} />
         <RootStack.Screen name='SigninScreen' component={SignInScreen} />
         <RootStack.Screen name='SignupScreen' component={SignUpScreen} />
