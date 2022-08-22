@@ -9,18 +9,38 @@ const ContactsScreen = ({navigation}) => {
     const { signOut } = React.useContext(AuthContext)
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Title</Text>
+
+      <View style={styles.contentContainer}>
+      <View style={styles.imgContainer}>
         <Text style={styles.textSign}>
-            home
+            Image Here
         </Text>
-        
+        </View>
+        <View style={styles.textView}>
+         <Text>Text Here</Text>
+        </View>
+
+        <View style={styles.contactsBtn}>
         <TouchableOpacity
-        style={styles.button}
+        onPress={() => navigation.navigate('contactsScreen')}
+        >
+          <Text style={styles.textSign}>
+            Add Emergency Contacts
+          </Text>
+        </TouchableOpacity>
+        </View>
+
+        <View style={styles.btnView}>
+        <TouchableOpacity
         onPress={() => {signOut()}}
         >
-          <Text>
+          <Text style={styles.textSign}>
             SignOut
           </Text>
         </TouchableOpacity>
+        </View>
+        </View>
         
     </View>
   );
@@ -33,22 +53,14 @@ const height_logo = height * 0.28;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, 
-    backgroundColor: 'black'
+    height: '100%', 
+    backgroundColor: '#009387',
   },
-  header: {
-      flex: 2,
-      justifyContent: 'center',
-      alignItems: 'center'
+  contentContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  footer: {
-      flex: 1,
-      backgroundColor: '#F76E11',
-      borderTopLeftRadius: 30,
-      borderTopRightRadius: 30,
-      paddingVertical: 50,
-      paddingHorizontal: 30
-  },
+  
   logo: {
       width: height_logo,
       height: height_logo
@@ -56,7 +68,9 @@ const styles = StyleSheet.create({
   title: {
       color: '#fff',
       fontSize: 26,
-      fontWeight: 'bold'
+      fontWeight: 'bold',
+      alignSelf: 'center',
+      paddingTop: 10,
   },
   text: {
       color: '#fff',
@@ -77,5 +91,47 @@ const styles = StyleSheet.create({
   textSign: {
       color: 'white',
       fontWeight: 'bold'
+  },
+
+  imgContainer: {
+   borderWidth: 1,
+   borderColor: 'black',
+   height: '40%',
+   width: '70%',
+   marginVertical: 15,
+   marginTop: 40,
+  },
+
+  textView: {
+    borderWidth: 1,
+    borderColor: 'black',
+    height: '25%',
+   width: '70%',
+   marginVertical: 10,
+  
+  },
+
+  contactsBtn: {
+    
+    backgroundColor: 'blue',
+    color: '#fff',
+    width: '80%',
+    height: 46,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+    
+  },
+
+  btnView: {
+   alignSelf: 'flex-end',
+   backgroundColor: 'blue',
+   color: '#fff',
+   width: '30%',
+   height: 40,
+   alignItems: 'center',
+   justifyContent: 'center',
+   marginTop: 20,
+   borderRadius: 20,
   }
 });

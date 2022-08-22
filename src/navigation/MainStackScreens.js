@@ -9,7 +9,7 @@ const MainStackScreen = () => {
   return (
     <MainStack.Navigator screenOptions={
       {
-        headerShown: true
+        headerShown: false
       }
     }>
         

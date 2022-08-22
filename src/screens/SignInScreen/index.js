@@ -14,8 +14,10 @@ import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 
+import { useTheme } from 'react-native-paper';
 
-import { AuthContext } from '../../components/context';
+import { AuthContext } from '../../components/context'
+
 import Users from '../../model/Users';
 
 const SignInScreen = ({navigation}) => {
@@ -29,6 +31,7 @@ const SignInScreen = ({navigation}) => {
         isValidPassword: true,
     });
 
+    const { colors } = useTheme();
 
     const { signIn } = React.useContext(AuthContext);
 
