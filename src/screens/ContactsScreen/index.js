@@ -1,132 +1,291 @@
-import React, {Component} from 'react';
-import {FlatList, StyleSheet, Text, View, Image, Alert, Platform, TouchableHighlight, ScrollView, Button, TouchableOpacity} from 'react-native';
-import flatListData from '../../ui/data/flatListData';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import AddModal from '../../ui/AddModal';
+import React from 'react';
+import {
+  StyleSheet,
+  SafeAreaView,
+  View,
+  TextInput,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  Alert,
+  Touchable,
+} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Communications from 'react-native-communications';
+import LinearGradient from 'react-native-linear-gradient';
+const COLORS = {primary: '#1f145c', white: '#fff'};
 
+const ContactScreen = () => {
+  const [contactList, setcontactList] = React.useState([]);
+  const [textInput, setTextInput] = React.useState('');
+  const [phoneNumber, setPhoneNumber] = React.useState('');
 
-class FlatListItem extends Component {
-    constructor(props) {
-        super(props);   
-        this.state = {
-            activeRowKey: null
-        };          
+  React.useEffect(() => {
+    getcontactListFromUserDevice();
+  }, []);
+
+  React.useEffect(() => {
+    saveContactsToUserDevice(contactList);
+  }, [contactList]);
+
+  const addTodo = () => {
+    if (textInput == '' && phoneNumber == '') {
+      Alert.alert('Error', 'Please Add a new Contact');
+    } else {
+      const newContact = {
+        id: Math.random(),
+        task: textInput,
+        Contact: phoneNumber,
+        completed: false,
+      };
+      setcontactList([...contactList, newContact]);
+      setTextInput('');
+      setPhoneNumber('');
     }
-  render() {
+  };
+
+  const saveContactsToUserDevice = async contactList => {
+    try {
+      const stringifycontactList = JSON.stringify(contactList);
+      await AsyncStorage.setItem('contactList', stringifycontactList);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getcontactListFromUserDevice = async () => {
+    try {
+      const contactList = await AsyncStorage.getItem('contactList');
+      if (contactList != null) {
+        setcontactList(JSON.parse(contactList));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  
+
+  const deleteTodo = todoId => {
+    const newcontactListItem = contactList.filter(item => item.id != todoId);
+    setcontactList(newcontactListItem);
+  };
+
+  const clearAllcontactList = () => {
+    Alert.alert('Confirm', 'Clear Contact List?', [
+      {
+        text: 'Yes',
+        onPress: () => setcontactList([]),
+      },
+      {
+        text: 'No',
+      },
+    ]);
+  };
+
+  const ListItem = ({todo}) => {
     return (
-      <View
-        style={{
-          flex: 1,
-          flexDirection: 'column',
-        }}>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: 'gray',
-            marginVertical: 10,
-            borderRadius: 20,
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-
-          }}>
-
-            <View
-            style={{flexDirection: 'column'}}>
-          <Text style={styles.flatListItem}>{this.props.item.name}</Text>
-          <Text style={styles.flatListItem}>{this.props.item.PhoneNumber}</Text>
-          </View>
-
-          <View style={styles.avatarContainer}>
-          <Image
-          source={{uri: this.props.item.imageUrl.toString()}}
-          style={{width: 20, height: 20, margin: 5}}></Image>
-         
-          
-          </View>
+      <View style={styles.listItem}>
+        <View style={{flex: 1}}>
+          <Text
+            style={{
+              fontWeight: 'bold',
+              fontSize: 15,
+              color: 'black',
+              textDecorationLine: todo?.completed ? 'line-through' : 'none',
+            }}>
+            {todo?.task}
+          </Text>
+        </View>
+        <View style={{flex: 1}}>
+          <Text
+            style={{
+              fontWeight: 'bold',
+              fontSize: 15,
+              color: 'black',
+              textDecorationLine: todo?.completed ? 'line-through' : 'none',
+            }}>
+            {todo?.Contact}
+          </Text>
         </View>
         
+        
+        <TouchableOpacity onPress={() =>
+           Communications.phonecall(
+            todo.Contact,
+            true
+           )
+           }>
+            <View style={styles.actionIcon}>
+              <Icon name="phone" size={26} color="#7868E6" />
+            </View>
+          </TouchableOpacity>
+          
+          <TouchableOpacity onPress={() =>
+           Communications.textWithoutEncoding(
+            todo.Contact,
+            'This an emergency'
+           )
+           }>
+            <View style={styles.actionIcon}>
+              <Icon name="message" size={26} color="#7868E6" />
+            </View>
+          </TouchableOpacity>
+        
+        <TouchableOpacity onPress={() => deleteTodo(todo.id)}>
+          <View style={styles.actionIcon}>
+            <Icon name="delete" size={26} color="#7868E6" />
+          </View>
+        </TouchableOpacity>
       </View>
     );
-  }
-}
+  };
+  return (
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: 'white',
+      }}>
+      <View style={styles.header}>
+        <Text
+          style={{
+            fontWeight: 'bold',
+            fontSize: 20,
+            color: '#B088F9',
+          }}>
+          Add Contacts!
+        </Text>
+        
+        <TouchableOpacity style={{width: '30%', height: 40, backgroundColor: '#7868E6', justifyContent: 'center', alignItems: 'center',
+      borderRadius: 20
+      }}
+      onPress={clearAllcontactList}
+      >
+        <LinearGradient
+              colors={['#C3AED6', '#B088F9']}
+              style={styles.signIn}>
+              <Text
+                style={
+                   { color: '#fff', fontSize: 14}
+                
+                }>
+                Delete List
+              </Text>
+              </LinearGradient>
+        </TouchableOpacity>
+        
+       
+      </View>
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{padding: 20, paddingBottom: 100}}
+        data={contactList}
+        renderItem={({item}) => <ListItem todo={item} />}
+      />
+
+      <View style={styles.footer}>
+        <View style={styles.inputContainer}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-around', marginTop: 10}}>
+          <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 14, marginTop: 10, flex: 1}}>
+            Name</Text>
+          <TextInput
+          style={{borderWidth: 1, borderColor: '#B088F9', flex: 3, borderRadius: 20, paddingLeft: 15}}
+            value={textInput}
+            placeholder="Add Todo"
+            onChangeText={text => setTextInput(text)}
+            placeholderTextColor="#C3AED6"
+          />
+          </View>
+          <View style={{flexDirection: 'row', justifyContent: 'space-around', marginTop: 10}}>
+          <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 14, marginTop: 10, flex: 1}}>
+            Contact</Text>
+          <TextInput
+          style={{borderWidth: 1, borderColor: '#B088F9', flex: 3, borderRadius: 20, paddingLeft: 15}}
+          value={phoneNumber}
+          placeholder="Add Todo"
+          onChangeText={text => setPhoneNumber(text)}
+          placeholderTextColor="#C3AED6"
+           />
+          </View>
+          
+        
+        </View>
+        <TouchableOpacity onPress={addTodo}>
+          <View style={styles.iconContainer}>
+            <Icon name="add" color="white" size={30} />
+          </View>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
+  );
+};
+
 const styles = StyleSheet.create({
-  flatListItem: {
-    color: 'white',
-    padding: 10,
-    fontSize: 16,
+  footer: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    backgroundColor: COLORS.white,
+    color: 'black'
+  },
+  inputContainer: {
+    height: '80%',
+    paddingHorizontal: 15,
+    elevation: 40,
+    backgroundColor: '#7868E6',
+    flex: 1,
+    marginVertical: 20,
+    marginRight: 20,
+    borderRadius: 30,
+    color: 'black',
+    
+  },
+  iconContainer: {
+    height: 50,
+    width: 50,
+    backgroundColor: COLORS.primary,
+    elevation: 40,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
-  avatarContainer: {        
-    backgroundColor: '#D9D9D9',
-    borderRadius: 100,
-    height: 60,
-    width: 60,
+  listItem: {
+    padding: 20,
+    backgroundColor: COLORS.white,
+    flexDirection: 'row',
+    elevation: 12,
+    borderRadius: 7,
+    marginVertical: 10,
+  },
+  actionIcon: {
+    height: 25,
+    width: 25,
+    backgroundColor: COLORS.white,
     justifyContent: 'center',
-    alignItems: 'center',    
-    alignSelf: 'center',
-    
+    alignItems: 'center',
+    marginLeft: 5,
+    borderRadius: 3,
+  },
+  header: {
+    padding: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  signIn: {
+    width: '100%',
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
 });
 
-export default class ContactScreen extends Component {
-
-    constructor(props) {
-        super(props);     
-        this.state = ({
-            deletedRowKey: null,            
-        });
-        this._onPressAdd = this._onPressAdd.bind(this);        
-    }
-    refreshFlatList = (activeKey) => {
-        this.setState((prevState) => {
-            return {
-                deletedRowKey: activeKey
-            };
-        });
-       
-       
-    }
-    _onPressAdd () {
-        // alert("You add Item");
-        this.refs.addModal.showAddModal();
-    }
-
-  render() {
-    return (
-      <View style={{flex: 1, width: '100%', alignSelf: 'center', backgroundColor: 'black', height: '100%'}}>
-          <View style={{
-                backgroundColor: '#52057B', 
-                flexDirection: 'row',
-                justifyContent:'flex-end',                
-                alignItems: 'center',
-                height: 64,
-                 }}>
-                <TouchableHighlight 
-                    style={{marginRight: 10}}
-                    underlayColor='#52057B'
-                    onPress={this._onPressAdd}
-                    >
-                  <FontAwesome 
-                    name="user-o"
-                    color={'#fff'}
-                    size={30}
-                />
-            </TouchableHighlight>
-            </View>
-            <ScrollView>
-            <View style={{width: '85%', alignSelf: 'center', marginVertical: 20}}>
-        <FlatList
-          data={flatListData}
-          renderItem={({item, index}) => {
-            //console.log(`Item = ${JSON.stringify(item)}, index = ${index}`);
-            return <FlatListItem item={item} index={index}></FlatListItem>;
-          }}></FlatList>
-          </View>
-          </ScrollView>
-          <AddModal ref={'addModal'} parentFlatList={this} >
-
-            </AddModal>
-      </View>
-    );
-  }
-}
+export default ContactScreen;

@@ -16,7 +16,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 
-const SignInScreen = ({navigation}) => {
+const SignUpScreen = ({navigation}) => {
 
     const [data, setData] = React.useState({
         username: '',
@@ -73,7 +73,7 @@ const SignInScreen = ({navigation}) => {
 
     return (
       <View style={styles.container}>
-          <StatusBar backgroundColor='#009387' barStyle="light-content"/>
+          <StatusBar backgroundColor='#FFFFFF' barStyle="dark-content"/>
         <View style={styles.header}>
             <Text style={styles.text_header}>Register Now!</Text>
         </View>
@@ -86,7 +86,7 @@ const SignInScreen = ({navigation}) => {
             <View style={styles.action}>
                 <FontAwesome 
                     name="user-o"
-                    color="#05375a"
+                    color="#fff"
                     size={20}
                 />
                 <TextInput 
@@ -101,7 +101,7 @@ const SignInScreen = ({navigation}) => {
                 >
                     <Feather 
                         name="check-circle"
-                        color="green"
+                        color="#fff"
                         size={20}
                     />
                 </Animatable.View>
@@ -114,7 +114,7 @@ const SignInScreen = ({navigation}) => {
             <View style={styles.action}>
                 <Feather 
                     name="lock"
-                    color="#05375a"
+                    color="#fff"
                     size={20}
                 />
                 <TextInput 
@@ -130,13 +130,13 @@ const SignInScreen = ({navigation}) => {
                     {data.secureTextEntry ? 
                     <Feather 
                         name="eye-off"
-                        color="grey"
+                        color="#fff"
                         size={20}
                     />
                     :
                     <Feather 
                         name="eye"
-                        color="grey"
+                        color="#fff"
                         size={20}
                     />
                     }
@@ -149,7 +149,7 @@ const SignInScreen = ({navigation}) => {
             <View style={styles.action}>
                 <Feather 
                     name="lock"
-                    color="#05375a"
+                    color="#fff"
                     size={20}
                 />
                 <TextInput 
@@ -165,13 +165,13 @@ const SignInScreen = ({navigation}) => {
                     {data.secureTextEntry ? 
                     <Feather 
                         name="eye-off"
-                        color="grey"
+                        color="#fff"
                         size={20}
                     />
                     :
                     <Feather 
                         name="eye"
-                        color="grey"
+                        color="#fff"
                         size={20}
                     />
                     }
@@ -191,7 +191,7 @@ const SignInScreen = ({navigation}) => {
                     onPress={() => {}}
                 >
                 <LinearGradient
-                    colors={['#08d4c4', '#01ab9d']}
+                    colors={['#C3AED6' , '#B088F9']}
                     style={styles.signIn}
                 >
                     <Text style={[styles.textSign, {
@@ -203,13 +203,13 @@ const SignInScreen = ({navigation}) => {
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}
                     style={[styles.signIn, {
-                        borderColor: '#009387',
+                        borderColor: '#C3AED6',
                         borderWidth: 1,
                         marginTop: 15
                     }]}
                 >
                     <Text style={[styles.textSign, {
-                        color: '#009387'
+                        color: '#C3AED6'
                     }]}>Sign In</Text>
                 </TouchableOpacity>
             </View>
@@ -219,12 +219,12 @@ const SignInScreen = ({navigation}) => {
     );
 };
 
-export default SignInScreen;
+export default SignUpScreen;
 
 const styles = StyleSheet.create({
     container: {
       flex: 1, 
-      backgroundColor: '#009387'
+      backgroundColor: '#FFFFFF'
     },
     header: {
         flex: 1,
@@ -234,19 +234,19 @@ const styles = StyleSheet.create({
     },
     footer: {
         flex: Platform.OS === 'ios' ? 3 : 5,
-        backgroundColor: '#fff',
+        backgroundColor: '#7868E6',
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
         paddingHorizontal: 20,
         paddingVertical: 30
     },
     text_header: {
-        color: '#fff',
+        color: '#7868E6',
         fontWeight: 'bold',
-        fontSize: 30
+        fontSize: 26
     },
     text_footer: {
-        color: '#05375a',
+        color: '#fff',
         fontSize: 18
     },
     action: {
@@ -283,6 +283,6 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
     color_textPrivate: {
-        color: 'grey'
+        color: '#C3AED6'
     }
   });

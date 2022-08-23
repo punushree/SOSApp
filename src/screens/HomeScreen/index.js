@@ -13,33 +13,52 @@ const ContactsScreen = ({navigation}) => {
 
       <View style={styles.contentContainer}>
       <View style={styles.imgContainer}>
-        <Text style={styles.textSign}>
-            Image Here
-        </Text>
+        
+        <Image
+            source={require('../../assests/AlertImg.png')}
+            style={styles.logo}
+            resizeMode='stretch'
+            />
+        
         </View>
         <View style={styles.textView}>
-         <Text>Text Here</Text>
+         <Text style={{color: '#7868E6', fontSize: 18, fontWeight: 'bold'}}>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt</Text>
+         <Text style={{color: '#7868E6', fontSize: 16, fontWeight: 'bold'}}>Lorem ipsum dolor sit amet, </Text>
         </View>
 
-        <View style={styles.contactsBtn}>
+        
         <TouchableOpacity
         onPress={() => navigation.navigate('contactsScreen')}
+        style={styles.signIn}
         >
+          <LinearGradient
+          colors={['#C3AED6' , '#B088F9']}
+          style={styles.signIn}
+          >
           <Text style={styles.textSign}>
             Add Emergency Contacts
           </Text>
+          </LinearGradient>
         </TouchableOpacity>
-        </View>
+       
 
-        <View style={styles.btnView}>
+        
         <TouchableOpacity
         onPress={() => {signOut()}}
+        style={styles.btnView}
         >
+          <LinearGradient
+          colors={['#C3AED6' , '#B088F9']}
+          style={styles.signIn}
+          >
+
+        
           <Text style={styles.textSign}>
             SignOut
           </Text>
+          </LinearGradient>
         </TouchableOpacity>
-        </View>
+        
         </View>
         
     </View>
@@ -54,7 +73,7 @@ const height_logo = height * 0.28;
 const styles = StyleSheet.create({
   container: {
     height: '100%', 
-    backgroundColor: '#009387',
+    backgroundColor: '#FFFFFF',
   },
   contentContainer: {
     alignItems: 'center',
@@ -62,8 +81,9 @@ const styles = StyleSheet.create({
   },
   
   logo: {
-      width: height_logo,
-      height: height_logo
+      width: '90%',
+      height: height_logo,
+      alignSelf: 'center'
   },
   title: {
       color: '#fff',
@@ -81,7 +101,7 @@ const styles = StyleSheet.create({
       marginTop: 30
   },
   signIn: {
-      width: 150,
+      width: '80%',
       height: 40,
       justifyContent: 'center',
       alignItems: 'center',
@@ -94,20 +114,18 @@ const styles = StyleSheet.create({
   },
 
   imgContainer: {
-   borderWidth: 1,
-   borderColor: 'black',
    height: '40%',
-   width: '70%',
+   width: '90%',
    marginVertical: 15,
    marginTop: 40,
   },
 
   textView: {
-    borderWidth: 1,
-    borderColor: 'black',
+   
     height: '25%',
    width: '70%',
    marginVertical: 10,
+   
   
   },
 
@@ -125,13 +143,12 @@ const styles = StyleSheet.create({
 
   btnView: {
    alignSelf: 'flex-end',
-   backgroundColor: 'blue',
    color: '#fff',
    width: '30%',
    height: 40,
    alignItems: 'center',
    justifyContent: 'center',
-   marginTop: 20,
+   marginTop: 50,
    borderRadius: 20,
   }
 });
