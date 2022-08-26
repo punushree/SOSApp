@@ -7,27 +7,27 @@ const SplashScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
         <View style={styles.header}>
-            {/* <Image
-            source={require('../../assests/BalloonIcon.png')}
+            <Image
+            source={require('../../assests/AlertImg.png')}
             style={styles.logo}
             resizeMode='stretch'
-            /> */}
+            />
             <Text>Header</Text>
         </View>
         <Animatable.View 
         style={styles.footer}
         animation='fadeInUpBig'
         >
-            <Text style={styles.title}>Lets Get Started</Text>
-            <Text style={styles.text}>Click Here</Text>
+            <Text style={styles.title}>This App will make you feel safe at all time!</Text>
+            <Text style={styles.text}>Lets get started</Text>
 
             <View style={styles.button}>
             <TouchableOpacity onPress={() => navigation.navigate('SigninScreen')}>
                 <LinearGradient
-                colors={['#08d4c4' , '#01ab9d']}
+                colors={['#C3AED6' , '#B088F9']}
                 style={styles.signIn}
                 >
-                    <Text style={styles.textSign}>Get Started</Text>
+                    <Text style={styles.textSign}>Click Here</Text>
                 </LinearGradient>
 
             </TouchableOpacity>
@@ -46,7 +46,7 @@ const height_logo = height * 0.28;
 const styles = StyleSheet.create({
   container: {
     flex: 1, 
-    backgroundColor: '#FAF5E4'
+    backgroundColor: '#FFFFFF'
   },
   header: {
       flex: 2,
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   },
   footer: {
       flex: 1,
-      backgroundColor: '#F76E11',
+      backgroundColor: '#7868E6',
       borderTopLeftRadius: 30,
       borderTopRightRadius: 30,
       paddingVertical: 50,
@@ -72,7 +72,9 @@ const styles = StyleSheet.create({
   },
   text: {
       color: '#fff',
-      marginTop:5
+      lineHeight: 50,
+      marginTop:5,
+      fontSize: 16,
   },
   button: {
       alignItems: 'flex-end',

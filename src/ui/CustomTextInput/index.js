@@ -28,6 +28,7 @@ import {
         flex: 1,
         color: 'black',
         marginLeft: 30,
+        paddingBottom: 20,
       },
       multiline: false,
       editable: true,
@@ -71,11 +72,16 @@ import {
       borderRadius: 40,
       width: '85%',
       alignSelf: 'center',
+    
+      marginBottom: 20,
+      
+      
     },
     inputField: {
       flex: 1,
       color: 'black',
       marginLeft: 30,
+     
     },
     imgContainer: {
         flex: 0.2, borderWidth: 0, alignItems: 'flex-end'
